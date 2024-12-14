@@ -1,4 +1,4 @@
-# package: codeforces
+# package: codeforces.CFclass
 import asyncio
 import json
 import websockets
