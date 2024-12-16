@@ -97,6 +97,7 @@ async def msg_handle(message):
   if await CheckAdmin(message.get('user_id')) and message.get('raw_message').startswith('! '):
     await admin_msg_handle(message)
     return
+  
   match message.get("message_tpye"):
     case 'private':
       await private_msg_handle(message)
@@ -105,6 +106,7 @@ async def msg_handle(message):
 
 async def info_handle(message):
   data = json.loads(message)
+  print("Received message: {}".format(data))
   if data.get('post_type') == 'message':
     await msg_handle(data)
     
