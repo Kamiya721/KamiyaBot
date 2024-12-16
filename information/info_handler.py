@@ -35,8 +35,12 @@ async def add_alias(base_name, alias_name):
     return False
   
   from permission.pms_check import ModuleCheck
-  if not await ModuleCheck(base_name):
-    raise ValueError(f"Module {base_name} not found.")
+  try:
+    if not await ModuleCheck(base_name):
+      raise ValueError(f"Module {base_name} not found.")
+  except Exception as e:
+    print(e)
+    return False
   alias_data[alias_name] = base_name
   await asyncio.to_thread(write_json, alias_log_path, alias_data)
   return True
@@ -77,10 +81,12 @@ async def group_msg_handle(message):
   
   if module_name == 'repeater':
     from repeater.repeat import repeat
-    match_res = re.match(r'^r\s*#(\w+)\s+(.*)', raw_message)
+    match_res = re.match(r'^\s*#(\w+)\s+(.*)', raw_message)
+    print(match_res)
     if not match_res:
       return
     data = match_res.group(2)
+    print(data)
     res = await repeat(data)
     await send_group_message(group_id, res)
     

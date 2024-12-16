@@ -47,9 +47,12 @@ async def CheckUserPermission(user_id : str, Module : str):
   except json.JSONDecodeError:
     raise ValueError("Error decoding the permission log file.")
 
-  if not await ModuleCheck(Module):
-    raise ValueError(f"Module {Module} not found.")
-  
+  try:
+    if not await ModuleCheck(Module):
+      raise ValueError(f"Module {Module} not found.")
+  except Exception as e:
+    print(e)
+    return False
   user_id = str(user_id)
   
   
@@ -77,8 +80,12 @@ async def CheckGroupPermission(group_id : str, user_id : str, Module : str):
   except json.JSONDecodeError:
     raise ValueError("Error decoding the permission log file.")
   
-  if not await ModuleCheck(Module):
-    raise ValueError(f"Module {Module} not found.")
+  try:
+    if not await ModuleCheck(Module):
+      raise ValueError(f"Module {Module} not found.")
+  except Exception as e:
+    print(e)
+    return False
   
   user_id = str(user_id)
   group_id = str(group_id)

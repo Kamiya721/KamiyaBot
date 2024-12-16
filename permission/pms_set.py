@@ -20,9 +20,11 @@ async def SetUserPermission(user_id : str, Module : str, isallow : bool):
     raise FileNotFoundError(f"Permission log file not found: {permission_log_path}")
   except json.JSONDecodeError:
     raise ValueError("Error decoding the permission log file.")
-
-  if not await ModuleCheck(Module):
-    raise ValueError(f"Module {Module} not found.")
+  try:
+    if not await ModuleCheck(Module):
+      raise ValueError(f"Module {Module} not found.")
+  except Exception as e:
+    print(e)
   
   user_id = str(user_id)
 
@@ -58,8 +60,12 @@ async def SetGroupPermission(group_id : str, Module : str, isallow : bool):
   except json.JSONDecodeError:
     raise ValueError("Error decoding the permission log file.")
 
-  if not await ModuleCheck(Module):
-    raise ValueError(f"Module {Module} not found.")
+  try:
+    if not await ModuleCheck(Module):
+      raise ValueError(f"Module {Module} not found.")
+  except Exception as e:
+    print(e)
+    return False
   
   group_id = str(group_id)
   
