@@ -61,6 +61,7 @@ async def group_msg_handle(message):
   from information.msg_sender import send_group_message
   
   match_res = re.match(r'^#(\w+)', raw_message)
+  print(match_res)
   if not match_res:
     return 
   module_name = match_res.group(1)
