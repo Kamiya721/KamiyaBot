@@ -4,6 +4,21 @@ import json
 import asyncio
 import os
 
+async def CheckAdmin(user_id):
+  permission_log_path = os.path.join(os.path.dirname(__file__), "User_Permission.json")
+  
+  try:
+    async with asyncio.to_thread(permission_log_path, 'r') as f:
+      permission_data = await json.load(f)
+  except FileNotFoundError:
+    raise FileNotFoundError("Permission log file not found: {}".format(permission_log_path))
+  except json.JSONDecodeError:
+    raise ValueError("Error decoding the permission log file.")
+  
+  if user_id in permission_data and permission_data[user_id].get('user_type') == 'admin':
+    return True
+  return False
+
 async def CheckUserPermission(user_id, Module):
   permission_log_path = os.path.join(os.path.dirname(__file__), "User_Permission.json")
   
