@@ -4,12 +4,15 @@ import json
 import asyncio
 import os
 
+def load_json(permission_log_path):
+  with open(permission_log_path, 'r') as f:
+    return json.load(f)
+
 async def CheckAdmin(user_id):
   permission_log_path = os.path.join(os.path.dirname(__file__), "User_Permission.json")
   
   try:
-    async with asyncio.to_thread(permission_log_path, 'r') as f:
-      permission_data = await json.load(f)
+    permission_data = await asyncio.to_thread(load_json, permission_log_path)
   except FileNotFoundError:
     raise FileNotFoundError("Permission log file not found: {}".format(permission_log_path))
   except json.JSONDecodeError:
@@ -23,8 +26,7 @@ async def CheckUserPermission(user_id, Module):
   permission_log_path = os.path.join(os.path.dirname(__file__), "User_Permission.json")
   
   try:
-    async with asyncio.to_thread(permission_log_path, 'r') as f:
-      permission_data = await json.load(f)
+    permission_data = await asyncio.to_thread(load_json, permission_log_path)
   except FileNotFoundError:
     raise FileNotFoundError("Permission log file not found: {}".format(permission_log_path))
   except json.JSONDecodeError:
@@ -47,10 +49,8 @@ async def CheckGroupPermission(group_id, User_id, Module):
   user_permission_log_path = os.path.join(os.path.dirname(__file__), "User_Permission.json")
   
   try:
-    async with asyncio.to_thread(group_permission_log_path, 'r') as f:
-      group_permission_data = await json.load(f)
-    async with asyncio.to_thread(user_permission_log_path, 'r') as f:
-      user_permission_data = await json.load(f)
+    group_permission_data = await asyncio.to_thread(load_json, group_permission_log_path)
+    user_permission_data = await asyncio.to_thread(load_json, user_permission_log_path)
   except FileNotFoundError:
     raise FileNotFoundError("Permission log file not found.")
   except json.JSONDecodeError:
