@@ -81,6 +81,7 @@ async def CheckGroupPermission(group_id : str, user_id : str, Module : str):
     raise ValueError(f"Module {Module} not found.")
   
   user_id = str(user_id)
+  group_id = str(group_id)
   
   if user_id in user_permission_data and user_permission_data[user_id].get('user_type') == 'admin':
     return True

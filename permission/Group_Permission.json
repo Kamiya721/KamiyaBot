@@ -1,1 +1,1 @@
-{"966831056": {"allow": ["codeforces"], "deny": []}, "301488189": {"allow": ["codeforces"], "deny": []}}
+{"966831056": {"allow": ["codeforces"], "deny": []}, "301488189": {"allow": ["codeforces", "repeater"], "deny": []}}
