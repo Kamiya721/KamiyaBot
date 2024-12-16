@@ -22,6 +22,7 @@ async def admin_msg_handle(message):
   from information.msg_sender import send_private_message
   admin_id = message.get('user_id')
   raw_message = message.get('raw_message')
+  print("Admin message received: {}.".format(raw_message))
   command = raw_message[2:].split(' ')
   if command[0] == 'allow':
     user = None; group = None; module = None
