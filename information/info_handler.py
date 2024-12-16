@@ -77,7 +77,7 @@ async def group_msg_handle(message):
   
   if module_name == 'repeater':
     from repeater.repeat import repeat
-    match_res = re.match(r'^#(\w+) (\S+)')
+    match_res = re.match(r'^#(\w+) (\S+)', raw_message)
     if not match_res:
       return
     data = match_res.group(2)
