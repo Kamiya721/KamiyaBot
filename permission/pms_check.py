@@ -64,7 +64,7 @@ async def CheckUserPermission(user_id : str, Module : str):
   
   return False
 
-async def CheckGroupPermission(group_id : str, User_id : str, Module : str):
+async def CheckGroupPermission(group_id : str, user_id : str, Module : str):
   group_permission_log_path = os.path.join(os.path.dirname(__file__), "Group_Permission.json")
   user_permission_log_path = os.path.join(os.path.dirname(__file__), "User_Permission.json")
   
@@ -81,13 +81,13 @@ async def CheckGroupPermission(group_id : str, User_id : str, Module : str):
   
   user_id = str(user_id)
   
-  if user_permission_data[User_id].get('user_type') == 'admin':
+  if user_permission_data[user_id].get('user_type') == 'admin':
     return True
   
   if group_id not in group_permission_data:
     return False
   Module = Module.lower()
-  if User_id in user_permission_data and user_permission_data[User_id].get("deny").get(Module):
+  if user_id in user_permission_data and user_permission_data[user_id].get("deny").get(Module):
     return False
   if Module in group_permission_data[group_id].get("allow"):
     return True
