@@ -33,7 +33,6 @@ async def CheckAdmin(user_id : str):
   except json.JSONDecodeError:
     raise ValueError("Error decoding the permission log file.")
   user_id = str(user_id)
-  # print(type(user_id), user_id)
   if user_id in permission_data and permission_data[user_id].get('user_type') == 'admin':
     return True
   return False
@@ -50,6 +49,8 @@ async def CheckUserPermission(user_id : str, Module : str):
 
   if not await ModuleCheck(Module):
     raise ValueError(f"Module {Module} not found.")
+  
+  user_id = str(user_id)
   
   if permission_data[user_id].get('user_type') == 'admin':
     return True
@@ -77,6 +78,8 @@ async def CheckGroupPermission(group_id : str, User_id : str, Module : str):
   
   if not await ModuleCheck(Module):
     raise ValueError(f"Module {Module} not found.")
+  
+  user_id = str(user_id)
   
   if user_permission_data[User_id].get('user_type') == 'admin':
     return True

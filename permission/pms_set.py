@@ -23,6 +23,8 @@ async def SetUserPermission(user_id : str, Module : str, isallow : bool):
 
   if not await ModuleCheck(Module):
     raise ValueError(f"Module {Module} not found.")
+  
+  user_id = str(user_id)
 
   if user_id in permission_data and permission_data[user_id].get('user_type') == 'admin':
     return False
@@ -58,6 +60,8 @@ async def SetGroupPermission(group_id : str, Module : str, isallow : bool):
 
   if not await ModuleCheck(Module):
     raise ValueError(f"Module {Module} not found.")
+  
+  group_id = str(group_id)
   
   if group_id not in group_permission_data:
     group_permission_data[group_id] = {'allow': [], 'deny': []}
