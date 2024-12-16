@@ -75,6 +75,15 @@ async def group_msg_handle(message):
   
   print(f"收到群聊消息：{raw_message}，来自用户 {user_id}，群组 {group_id}")
   
+  if module_name == 'repeater':
+    from repeater.repeater import repeater
+    match_res = re.match(r'^#(\w+) (\S+)')
+    if not match_res:
+      return
+    data = match_res.group(2)
+    res = await repeater(data)
+    await send_group_message(group_id, res)
+    
     
 async def admin_msg_handle(message):
   from information.msg_sender import send_private_message
