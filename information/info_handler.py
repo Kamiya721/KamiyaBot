@@ -64,7 +64,10 @@ async def group_msg_handle(message):
   print(match_res)
   if not match_res:
     return 
-  module_name = match_res.group(1)
+  if await find_alias(match_res.group(1)):
+    module_name = await find_alias(match_res.group(1))
+  else:
+    module_name = match_res.group(1)
   from permission.pms_check import CheckGroupPermission
   if not await CheckGroupPermission(group_id, user_id, module_name):
     await send_group_message(group_id, f"模块 {module_name} 未被允许使用。")
