@@ -76,7 +76,7 @@ async def group_msg_handle(message):
   print(f"收到群聊消息：{raw_message}，来自用户 {user_id}，群组 {group_id}")
   
   if module_name == 'repeater':
-    from repeater.repeater import repeater
+    from repeater.repeat import repeater
     match_res = re.match(r'^#(\w+) (\S+)')
     if not match_res:
       return
