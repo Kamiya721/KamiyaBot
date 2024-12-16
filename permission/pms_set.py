@@ -1,7 +1,7 @@
 import json
 import asyncio
 import os
-from pms_check import ModuleCheck
+from permission.pms_check import ModuleCheck
 
 def load_json(permission_log_path):
   with open(permission_log_path, 'r') as f:
