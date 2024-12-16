@@ -24,7 +24,7 @@ async def admin_msg_handle(message):
   raw_message = message.get('raw_message')
   command = raw_message[2:].split(' ')
   if command[0] == 'allow':
-    user = None, group = None, module = None
+    user = None; group = None; module = None
     if len(command) == 2 and command[1] == '-h':
       await send_private_message(admin_id, "Usage: ! allow [-u/--user user_id] [-g/--group group_id] [-m/--module module_name]")
       return
@@ -57,7 +57,7 @@ async def admin_msg_handle(message):
       else:
         await send_private_message(admin_id, f"群组 {group} 已被允许使用模块 {module}。")
   elif command[0] == 'disallow':
-    user = None, group = None, module = None
+    user = None; group = None; module = None
     if len(command) == 2 and command[1] == '-h':
       await send_private_message(admin_id, "Usage: ! disallow [-u/--user user_id] [-g/--group group_id] [-m/--module module_name]")
       return
