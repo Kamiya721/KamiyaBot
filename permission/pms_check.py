@@ -52,7 +52,8 @@ async def CheckUserPermission(user_id : str, Module : str):
   
   user_id = str(user_id)
   
-  if permission_data[user_id].get('user_type') == 'admin':
+  
+  if user_id in permission_data and permission_data[user_id].get('user_type') == 'admin':
     return True
    
   if user_id not in permission_data:
@@ -81,7 +82,7 @@ async def CheckGroupPermission(group_id : str, user_id : str, Module : str):
   
   user_id = str(user_id)
   
-  if user_permission_data[user_id].get('user_type') == 'admin':
+  if user_id in user_permission_data and user_permission_data[user_id].get('user_type') == 'admin':
     return True
   
   if group_id not in group_permission_data:
