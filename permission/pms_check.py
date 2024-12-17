@@ -77,7 +77,7 @@ async def CheckUserPermission(user_id : str, Module : str):
     return False
 
   Module = Module.lower()
-  if permission_data[user_id].get("allow").get(Module):
+  if Module in permission_data[user_id].get("allow"):
     return True
   
   return False
@@ -113,7 +113,7 @@ async def CheckGroupPermission(group_id : str, user_id : str, Module : str):
   if group_id not in group_permission_data:
     return False
   Module = Module.lower()
-  if user_id in user_permission_data and user_permission_data[user_id].get("deny").get(Module):
+  if user_id in user_permission_data and Module in user_permission_data[user_id].get("deny"):
     return False
   if Module in group_permission_data[group_id].get("allow"):
     return True
