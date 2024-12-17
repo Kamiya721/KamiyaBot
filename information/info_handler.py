@@ -131,7 +131,7 @@ async def admin_msg_handle(message):
           group = command[i+1]
         elif command[i] == '-m' or command[i] == '--module':
           module = command[i+1]
-      if not group and message.get("message_type") == 'group':
+      if not user and not group and message.get("message_type") == 'group':
         group = str(message.get("group_id"))
       if not user and not group:
         await send_private_message(admin_id, '''Usage: ! allow [-u/--user user_id] [-g/--group group_id] [-m/--module module_name]
@@ -165,7 +165,7 @@ async def admin_msg_handle(message):
           group = command[i+1]
         elif command[i] == '-m' or command[i] == '--module':
           module = command[i+1]
-      if not group and message.get("message_type") == 'group':
+      if not user and not group and message.get("message_type") == 'group':
         group = str(message.get("group_id"))
       if not user and not group:
         await send_private_message(admin_id, '''Usage: ! disallow [-u/--user user_id] [-g/--group group_id] [-m/--module module_name]
