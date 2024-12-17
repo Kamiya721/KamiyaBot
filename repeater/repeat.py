@@ -1,11 +1,15 @@
 # package: repeater.repeat
 
-from jinja2 import Template
+from jinja2 import Template, Environment
 import asyncio
 
 async def repeat(data):
   try:
-    template = Template(data)
+    env = Environment(
+      autoescape=True
+    )
+    env.globals = {}
+    template = env.from_string(data)
     output = template.render()
     return output
   except Exception as e:
