@@ -5,11 +5,15 @@ import asyncio
 import os
 
 def load_json(permission_log_path):
-  with open(permission_log_path, 'r') as f:
-    return json.load(f)
+  try:
+    with open(permission_log_path, 'r') as f:
+      return json.load(f)
+  except Exception as e:
+    print(f"Error loading JSON: {e}")
+    return {}
 
 async def ModuleCheck(Module : str):
-  log_path = os.path.join(os.path.dirname(__file__), "module_list.json")
+  log_path = os.path.join(os.path.dirname(__file__), os.path.expanduser("~/DataStore/module_list.json"))
   
   try:
     data = await asyncio.to_thread(load_json, log_path)
@@ -17,6 +21,9 @@ async def ModuleCheck(Module : str):
     raise FileNotFoundError("Permission log file not found: {}".format(log_path))
   except json.JSONDecodeError:
     raise ValueError("Error decoding the permission log file.")
+  except Exception as e:
+    print(f"Error in ModuleCheck: {e}")
+    return False
   
   Module = Module.lower()
   if Module in data:
@@ -24,7 +31,7 @@ async def ModuleCheck(Module : str):
   return False
 
 async def CheckAdmin(user_id : str):
-  permission_log_path = os.path.join(os.path.dirname(__file__), "User_Permission.json")
+  permission_log_path = os.path.join(os.path.dirname(__file__), os.path.expanduser("~/DataStore/User_Permission.json"))
   
   try:
     permission_data = await asyncio.to_thread(load_json, permission_log_path)
@@ -32,13 +39,17 @@ async def CheckAdmin(user_id : str):
     raise FileNotFoundError("Permission log file not found: {}".format(permission_log_path))
   except json.JSONDecodeError:
     raise ValueError("Error decoding the permission log file.")
+  except Exception as e:
+    print(f"Error in CheckAdmin: {e}")
+    return False
+
   user_id = str(user_id)
   if user_id in permission_data and permission_data[user_id].get('user_type') == 'admin':
     return True
   return False
 
 async def CheckUserPermission(user_id : str, Module : str):
-  permission_log_path = os.path.join(os.path.dirname(__file__), "User_Permission.json")
+  permission_log_path = os.path.join(os.path.dirname(__file__), os.path.expanduser("~/DataStore/User_Permission.json"))
   
   try:
     permission_data = await asyncio.to_thread(load_json, permission_log_path)
@@ -46,15 +57,18 @@ async def CheckUserPermission(user_id : str, Module : str):
     raise FileNotFoundError("Permission log file not found: {}".format(permission_log_path))
   except json.JSONDecodeError:
     raise ValueError("Error decoding the permission log file.")
+  except Exception as e:
+    print(f"Error in CheckUserPermission: {e}")
+    return False
 
   try:
     if not await ModuleCheck(Module):
       raise ValueError(f"Module {Module} not found.")
   except Exception as e:
-    print(e)
+    print(f"Error in ModuleCheck: {e}")
     return False
+
   user_id = str(user_id)
-  
   
   if user_id in permission_data and permission_data[user_id].get('user_type') == 'admin':
     return True
@@ -69,8 +83,8 @@ async def CheckUserPermission(user_id : str, Module : str):
   return False
 
 async def CheckGroupPermission(group_id : str, user_id : str, Module : str):
-  group_permission_log_path = os.path.join(os.path.dirname(__file__), "Group_Permission.json")
-  user_permission_log_path = os.path.join(os.path.dirname(__file__), "User_Permission.json")
+  group_permission_log_path = os.path.join(os.path.dirname(__file__), os.path.expanduser("~/DataStore/Group_Permission.json"))
+  user_permission_log_path = os.path.join(os.path.dirname(__file__), os.path.expanduser("~/DataStore/User_Permission.json"))
   
   try:
     group_permission_data = await asyncio.to_thread(load_json, group_permission_log_path)
@@ -79,12 +93,15 @@ async def CheckGroupPermission(group_id : str, user_id : str, Module : str):
     raise FileNotFoundError("Permission log file not found.")
   except json.JSONDecodeError:
     raise ValueError("Error decoding the permission log file.")
+  except Exception as e:
+    print(f"Error in CheckGroupPermission: {e}")
+    return False
   
   try:
     if not await ModuleCheck(Module):
       raise ValueError(f"Module {Module} not found.")
   except Exception as e:
-    print(e)
+    print(f"Error in ModuleCheck: {e}")
     return False
   
   user_id = str(user_id)

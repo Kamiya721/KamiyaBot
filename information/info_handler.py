@@ -33,7 +33,7 @@ async def private_msg_handle(message):
 
 async def add_alias(base_name, alias_name):
   try:
-    alias_log_path = os.path.join(os.path.dirname(__file__), "Alias.json")
+    alias_log_path = os.path.join(os.path.dirname(__file__), os.path.expanduser("~/DataStore/Alias.json"))
     alias_data = await asyncio.to_thread(load_json, alias_log_path)
     if alias_name in alias_data:
       return False
@@ -53,7 +53,7 @@ async def add_alias(base_name, alias_name):
 
 async def find_alias(name):
   try:
-    alias_log_path = os.path.join(os.path.dirname(__file__), "Alias.json")
+    alias_log_path = os.path.join(os.path.dirname(__file__), os.path.expanduser("~/DataStore/Alias.json"))
     alias_data = await asyncio.to_thread(load_json, alias_log_path)
     if name in alias_data:
       return alias_data[name]
